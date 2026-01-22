@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:viral_bites/feature/auth/screen/sign_up_verify_screen.dart';
 
 class SignUpController extends GetxController {
+  final signupFormKey = GlobalKey<FormState>();
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passController = TextEditingController();
@@ -17,4 +19,10 @@ class SignUpController extends GetxController {
     isPassVisible.value = !isPassVisible.value;
   }
 
+  void signup() async {
+    if (signupFormKey.currentState!.validate()) {
+      await Future.delayed(const Duration(seconds: 1));
+      Get.to(SignUpVerifyScreen());
+    }
+  }
 }

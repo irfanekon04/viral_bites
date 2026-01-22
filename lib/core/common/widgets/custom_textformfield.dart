@@ -46,7 +46,7 @@ class CustomTextformfield extends StatelessWidget {
         fontSize: 14,
         fontWeight: .normal,
       ),
-      suffix: suffixWidget,
+      suffixIcon: suffixWidget,
       border: _outlineInputBorder(),
       enabledBorder: _outlineInputBorder(),
       disabledBorder: _outlineInputBorder(),

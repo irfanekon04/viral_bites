@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -13,6 +13,7 @@ class NewPassController extends GetxController {
   TextEditingController passController = TextEditingController();
   TextEditingController confirmPassController = TextEditingController();
   RxBool isPassVisible = false.obs;
+  final resetPassFormKey = GlobalKey<FormState>();
   void togglePasswordVisibility() {
     isPassVisible.value = !isPassVisible.value;
   }

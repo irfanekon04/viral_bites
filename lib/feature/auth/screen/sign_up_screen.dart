@@ -49,151 +49,170 @@ class SignUpScreen extends StatelessWidget {
                   ),
                 ),
                 Gap(32),
-                CustomTextformfield(
-                  hintText: 'Enter your full name',
-                  isObscure: false,
-                  headertext: 'Full Name',
-                  fillColor: AppColors.textWhite,
-                  prefixIcon: Container(
-                    height: 15,
-                    width: 15,
-                    padding: .all(12),
-                    child: Image.asset(IconPath.user),
-                  ),
-                  suffixWidget: null,
-                  hintTextColor: AppColors.textSecondary,
-                  textController: _controller.nameController,
-                  textColor: AppColors.textPrimary,
-                ),
-                Gap(20),
-                CustomTextformfield(
-                  hintText: 'Enter your email',
-                  isObscure: false,
-                  headertext: 'Email Address',
-                  fillColor: AppColors.textWhite,
-                  prefixIcon: Container(
-                    height: 15,
-                    width: 15,
-                    padding: .all(12),
-                    child: Image.asset(IconPath.email),
-                  ),
-                  suffixWidget: null,
-                  hintTextColor: AppColors.textSecondary,
-                  textController: _controller.emailController,
-                  textColor: AppColors.textPrimary,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your email address';
-                    }
-                    if (!GetUtils.isEmail(value)) {
-                      return 'Please enter a valid email';
-                    }
-                    return null;
-                  },
-                ),
-                Gap(20),
-                CustomTextformfield(
-                  hintText: 'xxxxxxxxxxx',
-                  isObscure: false,
-                  headertext: 'Phone Number',
-                  fillColor: AppColors.textWhite,
-                  prefixIcon: Container(
-                    height: 15,
-                    width: 15,
-                    padding: .all(12),
-                    child: Image.asset(IconPath.phone),
-                  ),
-                  suffixWidget: null,
-                  hintTextColor: AppColors.textSecondary,
-                  textController: _controller.phoneController,
-                  textColor: AppColors.textPrimary,
-                ),
-                Gap(20),
-                Obx(
-                  () => CustomTextformfield(
-                    hintText: '**********',
-                    isObscure: !_controller.isPassVisible.value,
-                    headertext: 'Password',
-                    fillColor: AppColors.textWhite,
-                    prefixIcon: Container(
-                      height: 15,
-                      width: 15,
-                      padding: .all(12),
-                      child: Image.asset(IconPath.pass),
-                    ),
-                    suffixWidget: _controller.isPassVisible.value
-                        ? GestureDetector(
-                            onTap: _controller.togglePasswordVisibility,
-                            child: Icon(
-                              Icons.visibility_outlined,
-                              color: AppColors.textSecondary,
-                            ),
-                          )
-                        : GestureDetector(
-                            onTap: _controller.togglePasswordVisibility,
-                            child: Icon(
-                              Icons.visibility_off_outlined,
-                              color: AppColors.textSecondary,
+                Form(
+                  key: _controller.signupFormKey,
+                  child: Column(
+                    children: [
+                      CustomTextformfield(
+                        hintText: 'Enter your full name',
+                        isObscure: false,
+                        headertext: 'Full Name',
+                        fillColor: AppColors.textWhite,
+                        prefixIcon: Container(
+                          height: 15,
+                          width: 15,
+                          padding: .all(12),
+                          child: Image.asset(IconPath.user),
+                        ),
+                        suffixWidget: null,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your full name';
+                          }
+                          if (!GetUtils.isAlphabetOnly(value)) {
+                            return 'Please enter a valid full name ';
+                          }
+                          return null;
+                        },
+                        hintTextColor: AppColors.textSecondary,
+                        textController: _controller.nameController,
+                        textColor: AppColors.textPrimary,
+                      ),
+                      Gap(20),
+                      CustomTextformfield(
+                        hintText: 'Enter your email',
+                        isObscure: false,
+                        headertext: 'Email Address',
+                        fillColor: AppColors.textWhite,
+                        prefixIcon: Container(
+                          height: 15,
+                          width: 15,
+                          padding: .all(12),
+                          child: Image.asset(IconPath.email),
+                        ),
+                        suffixWidget: null,
+                        hintTextColor: AppColors.textSecondary,
+                        textController: _controller.emailController,
+                        textColor: AppColors.textPrimary,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your email address';
+                          }
+                          if (!GetUtils.isEmail(value)) {
+                            return 'Please enter a valid email';
+                          }
+                          return null;
+                        },
+                      ),
+                      Gap(20),
+                      CustomTextformfield(
+                        hintText: 'xxxxxxxxxxx',
+                        isObscure: false,
+                        headertext: 'Phone Number',
+                        fillColor: AppColors.textWhite,
+                        prefixIcon: Container(
+                          height: 15,
+                          width: 15,
+                          padding: .all(12),
+                          child: Image.asset(IconPath.phone),
+                        ),
+                        suffixWidget: null,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your phone number';
+                          }
+                          if (!GetUtils.isPhoneNumber(value)) {
+                            return 'Please enter a valid phone number';
+                          }
+                          return null;
+                        },
+                        hintTextColor: AppColors.textSecondary,
+                        textController: _controller.phoneController,
+                        textColor: AppColors.textPrimary,
+                      ),
+                      Gap(20),
+                      Obx(
+                        () => CustomTextformfield(
+                          hintText: '**********',
+                          isObscure: !_controller.isPassVisible.value,
+                          headertext: 'Password',
+                          fillColor: AppColors.textWhite,
+                          prefixIcon: Container(
+                            height: 15,
+                            width: 15,
+                            padding: .all(12),
+                            child: Image.asset(IconPath.pass),
+                          ),
+                          suffixWidget: _controller.isPassVisible.value
+                              ? GestureDetector(
+                                  onTap: _controller.togglePasswordVisibility,
+                                  child: Icon(
+                                    Icons.visibility_outlined,
+                                    color: AppColors.textSecondary,
+                                  ),
+                                )
+                              : GestureDetector(
+                                  onTap: _controller.togglePasswordVisibility,
+                                  child: Icon(
+                                    Icons.visibility_off_outlined,
+                                    color: AppColors.textSecondary,
+                                  ),
+                                ),
+
+                          hintTextColor: AppColors.textSecondary,
+                          textController: _controller.passController,
+                          textColor: AppColors.textPrimary,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your password';
+                            }
+                            if (!GetUtils.isEmail(value)) {
+                              return 'Please enter a valid ';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                      Gap(20),
+                      Obx(
+                        () => CustomTextformfield(
+                          hintText: '**********',
+                          isObscure: !_controller.isPassVisible.value,
+                          headertext: 'Confirm Password',
+                          fillColor: AppColors.textWhite,
+                          prefixIcon: Container(
+                            height: 15,
+                            width: 15,
+                            padding: .all(12),
+                            child: Image.asset(IconPath.pass),
+                          ),
+                          suffixWidget: IconButton(
+                            onPressed: _controller.togglePasswordVisibility,
+                            icon: Icon(
+                              _controller.isPassVisible.value
+                                  ? Icons.visibility_outlined
+                                  : Icons.visibility_off_outlined,
                             ),
                           ),
 
-                    hintTextColor: AppColors.textSecondary,
-                    textController: _controller.passController,
-                    textColor: AppColors.textPrimary,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your password';
-                      }
-                      if (!GetUtils.isEmail(value)) {
-                        return 'Please enter a valid ';
-                      }
-                      return null;
-                    },
+                          hintTextColor: AppColors.textSecondary,
+                          textController: _controller.confirmPassController,
+                          textColor: AppColors.textPrimary,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your password';
+                            }
+                            if (!GetUtils.isEmail(value)) {
+                              return 'Please enter a valid ';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                Gap(20),
-                Obx(
-                  () => CustomTextformfield(
-                    hintText: '**********',
-                    isObscure: !_controller.isPassVisible.value,
-                    headertext: 'Confirm Password',
-                    fillColor: AppColors.textWhite,
-                    prefixIcon: Container(
-                      height: 15,
-                      width: 15,
-                      padding: .all(12),
-                      child: Image.asset(IconPath.pass),
-                    ),
-                    suffixWidget: _controller.isPassVisible.value
-                        ? GestureDetector(
-                            onTap: _controller.togglePasswordVisibility,
-                            child: Icon(
-                              Icons.visibility_outlined,
-                              color: AppColors.textSecondary,
-                            ),
-                          )
-                        : GestureDetector(
-                            onTap: _controller.togglePasswordVisibility,
-                            child: Icon(
-                              Icons.visibility_off_outlined,
-                              color: AppColors.textSecondary,
-                            ),
-                          ),
 
-                    hintTextColor: AppColors.textSecondary,
-                    textController: _controller.confirmPassController,
-                    textColor: AppColors.textPrimary,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your password';
-                      }
-                      if (!GetUtils.isEmail(value)) {
-                        return 'Please enter a valid ';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
                 Gap(20),
                 Row(
                   mainAxisAlignment: .start,

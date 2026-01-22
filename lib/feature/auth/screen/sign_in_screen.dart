@@ -44,75 +44,74 @@ class SignInScreen extends StatelessWidget {
                   ),
                 ),
                 Gap(32),
-                CustomTextformfield(
-                  hintText: 'Enter your email address',
-                  isObscure: false,
-                  headertext: 'Email Address',
-                  fillColor: AppColors.textWhite,
-                  prefixIcon: Container(
-                    height: 15,
-                    width: 15,
-                    padding: .all(12),
-                    child: Image.asset(IconPath.email),
-                  ),
-                  suffixWidget: null,
-                  hintTextColor: AppColors.textSecondary,
-                  textController: _controller.emailController,
-                  textColor: AppColors.textPrimary,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your email';
-                    }
-                    if (!GetUtils.isEmail(value)) {
-                      return 'Please enter a valid email';
-                    }
-                    return null;
-                  },
-                ),
-
-                Gap(20),
-                Obx(
-                  () => CustomTextformfield(
-                    hintText: '**********',
-                    isObscure: !_controller.isPassVisible.value,
-                    headertext: 'Password',
-                    fillColor: AppColors.textWhite,
-                    prefixIcon: Container(
-                      height: 15,
-                      width: 15,
-                      padding: .all(12),
-                      child: Image.asset(IconPath.pass),
-                    ),
-                    suffixWidget: _controller.isPassVisible.value
-                        ? GestureDetector(
-                            onTap: _controller.togglePasswordVisibility,
-                            child: Icon(
-                              Icons.visibility_outlined,
-                              color: AppColors.textSecondary,
-                            ),
-                          )
-                        : GestureDetector(
-                            onTap: _controller.togglePasswordVisibility,
-                            child: Icon(
-                              Icons.visibility_off_outlined,
-                              color: AppColors.textSecondary,
+                Form(
+                  key: _controller.loginFormKey,
+                  child: Column(
+                    children: [
+                      CustomTextformfield(
+                        hintText: 'Enter your email address',
+                        isObscure: false,
+                        headertext: 'Email Address',
+                        fillColor: AppColors.textWhite,
+                        prefixIcon: Container(
+                          height: 15,
+                          width: 15,
+                          padding: .all(12),
+                          child: Image.asset(IconPath.email),
+                        ),
+                        suffixWidget: null,
+                        hintTextColor: AppColors.textSecondary,
+                        textController: _controller.emailController,
+                        textColor: AppColors.textPrimary,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your email';
+                          }
+                          if (!GetUtils.isEmail(value)) {
+                            return 'Please enter a valid email';
+                          }
+                          return null;
+                        },
+                      ),
+                      Gap(20),
+                      Obx(
+                        () => CustomTextformfield(
+                          hintText: '**********',
+                          isObscure: !_controller.isPassVisible.value,
+                          headertext: 'Password',
+                          fillColor: AppColors.textWhite,
+                          prefixIcon: Container(
+                            height: 15,
+                            width: 15,
+                            padding: .all(12),
+                            child: Image.asset(IconPath.pass),
+                          ),
+                          suffixWidget: IconButton(
+                            onPressed: _controller.togglePasswordVisibility,
+                            icon: Icon(
+                              _controller.isPassVisible.value
+                                  ? Icons.visibility_outlined
+                                  : Icons.visibility_off_outlined,
                             ),
                           ),
-
-                    hintTextColor: AppColors.textSecondary,
-                    textController: _controller.passController,
-                    textColor: AppColors.textPrimary,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your password';
-                      }
-                      if (!GetUtils.isEmail(value)) {
-                        return 'Please enter a valid ';
-                      }
-                      return null;
-                    },
+                          hintTextColor: AppColors.textSecondary,
+                          textController: _controller.passController,
+                          textColor: AppColors.textPrimary,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your password';
+                            }
+                            if (value.length < 6) {
+                              return 'Password must be at least 6 characters long';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                    ],
                   ),
                 ),
+
                 Gap(20),
                 Row(
                   mainAxisAlignment: .spaceBetween,
@@ -131,8 +130,7 @@ class SignInScreen extends StatelessWidget {
                             activeColor: AppColors.primary,
                             value: _controller.isChecked.value,
                             onChanged: (value) {
-                              _controller.isChecked.value =
-                                  !_controller.isChecked.value;
+                              _controller.toogleCheckbox();
                             },
                           ),
                         ),
@@ -163,7 +161,12 @@ class SignInScreen extends StatelessWidget {
                   ],
                 ),
                 Gap(32),
-                CustomButton(text: 'Login', onPressed: () {}),
+                CustomButton(
+                  text: 'Login',
+                  onPressed: () {
+                    _controller.login();
+                  },
+                ),
                 Gap(46),
                 Row(
                   mainAxisAlignment: .center,

@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:viral_bites/feature/auth/screen/forget_pass_screen.dart';
+import 'package:viral_bites/feature/auth/screen/pass_verify_screen.dart';
 
 import 'package:viral_bites/feature/auth/screen/sign_in_screen.dart';
 import 'package:viral_bites/feature/auth/screen/sign_up_screen.dart';
@@ -22,7 +23,7 @@ class AppRoutes {
     GetPage(name: signUp, page: () => SignUpScreen()),
     GetPage(name: signUpVerify, page: () => SignUpVerifyScreen()),
     GetPage(name: forgetPass, page: () => ForgetPassScreen()),
-    // GetPage(name: forgetPass, page: () => ForgetPassScreen()),
+    GetPage(name: passVerify, page: () => PassVerifyScreen()),
     // GetPage(name: forgetPass, page: () => ForgetPassScreen()),
     // GetPage(name: forgetPass, page: () => ForgetPassScreen()),
   ];

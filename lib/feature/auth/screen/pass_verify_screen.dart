@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
@@ -6,7 +7,6 @@ import 'package:pinput/pinput.dart';
 import 'package:viral_bites/core/common/widgets/custom_button.dart';
 import 'package:viral_bites/core/utils/constants/icon_path.dart';
 import 'package:viral_bites/feature/auth/controller/pass_verify_controller.dart';
-import 'package:viral_bites/feature/auth/screen/new_pass_screen.dart';
 import '../../../core/utils/constants/app_colors.dart';
 
 class PassVerifyScreen extends StatelessWidget {
@@ -15,6 +15,10 @@ class PassVerifyScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var email = Get.arguments;
+    if (kDebugMode) {
+      print(email);
+    }
     final defaultPinTheme = PinTheme(
       height: 60,
       width: 60,
@@ -34,7 +38,7 @@ class PassVerifyScreen extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: .all(24),
+          padding: .all(16),
           child: Column(
             mainAxisAlignment: .start,
             children: [
@@ -78,6 +82,8 @@ class PassVerifyScreen extends StatelessWidget {
               Gap(32),
               Form(
                 child: Pinput(
+                  controller: controller.otpController,
+                  length: 6,
                   defaultPinTheme: defaultPinTheme.copyWith(
                     decoration: BoxDecoration(
                       color: AppColors.textWhite,
@@ -95,36 +101,40 @@ class PassVerifyScreen extends StatelessWidget {
                 ),
               ),
               Gap(20),
-              Row(
-                mainAxisAlignment: .center,
-                children: [
-                  Text(
-                    'Resend code in',
-                    textAlign: .center,
-                    style: GoogleFonts.inter(
-                      fontWeight: .w400,
-                      fontSize: 16,
-                      color: AppColors.textSecondary,
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: null,
-                    child: Text(
-                      '0:43',
-                      style: GoogleFonts.poppins(
-                        color: AppColors.textPrimary,
-                        fontSize: 16,
-                        fontWeight: .w500,
+              Obx(
+                () => controller.canResend.value
+                    ? TextButton(
+                        onPressed: controller.resendOtp,
+                        child: Text("Resend OTP"),
+                      )
+                    : Row(
+                        mainAxisAlignment: .center,
+                        children: [
+                          Text(
+                            'Resend code in ',
+                            textAlign: .center,
+                            style: GoogleFonts.inter(
+                              fontWeight: .w400,
+                              fontSize: 16,
+                              color: AppColors.textSecondary,
+                            ),
+                          ),
+                          Text(
+                            '0:${controller.secondsLeft.value}',
+                            style: GoogleFonts.poppins(
+                              color: AppColors.textPrimary,
+                              fontSize: 16,
+                              fontWeight: .w500,
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ),
-                ],
               ),
               Spacer(),
               CustomButton(
                 text: 'Continue',
                 onPressed: () {
-                  Get.to(NewPassScreen());
+                  controller.verify();
                 },
               ),
             ],

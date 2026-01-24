@@ -23,7 +23,7 @@ class SignInScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: SafeArea(
           child: Padding(
-            padding: EdgeInsets.all(24),
+            padding: EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: .start,
               children: [
@@ -93,6 +93,7 @@ class SignInScreen extends StatelessWidget {
                                   ? Icons.visibility_outlined
                                   : Icons.visibility_off_outlined,
                             ),
+                            color: AppColors.textSecondary,
                           ),
                           hintTextColor: AppColors.textSecondary,
                           textController: _controller.passController,
@@ -181,7 +182,7 @@ class SignInScreen extends StatelessWidget {
                     ),
                     InkWell(
                       onTap: () {
-                        Get.to(SignUpScreen());
+                        Get.to(() => SignUpScreen());
                       },
                       child: Text(
                         " Register",

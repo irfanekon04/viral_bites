@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:viral_bites/core/common/widgets/custom_button.dart';
 import 'package:viral_bites/feature/auth/controller/forget_pass_controller.dart';
-import 'package:viral_bites/feature/auth/screen/pass_verify_screen.dart';
 
 import '../../../core/common/widgets/custom_textformfield.dart';
 import '../../../core/utils/constants/app_colors.dart';
@@ -19,7 +18,7 @@ class ForgetPassScreen extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(24.0),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
               Row(
@@ -60,36 +59,39 @@ class ForgetPassScreen extends StatelessWidget {
                 ),
               ),
               Gap(32),
-              CustomTextformfield(
-                hintText: 'Enter your email',
-                isObscure: false,
-                headertext: 'Email Address',
-                fillColor: AppColors.textWhite,
-                prefixIcon: Container(
-                  height: 15,
-                  width: 15,
-                  padding: .all(12),
-                  child: Image.asset(IconPath.email),
+              Form(
+                key: controller.forgotPassFormKey,
+                child: CustomTextformfield(
+                  hintText: 'Enter your email',
+                  isObscure: false,
+                  headertext: 'Email Address',
+                  fillColor: AppColors.textWhite,
+                  prefixIcon: Container(
+                    height: 15,
+                    width: 15,
+                    padding: .all(12),
+                    child: Image.asset(IconPath.email),
+                  ),
+                  suffixWidget: null,
+                  hintTextColor: AppColors.textSecondary,
+                  textController: controller.emailController,
+                  textColor: AppColors.textPrimary,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your email';
+                    }
+                    if (!GetUtils.isEmail(value)) {
+                      return 'Please enter a valid email';
+                    }
+                    return null;
+                  },
                 ),
-                suffixWidget: null,
-                hintTextColor: AppColors.textSecondary,
-                textController: controller.emailController,
-                textColor: AppColors.textPrimary,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your email';
-                  }
-                  if (!GetUtils.isEmail(value)) {
-                    return 'Please enter a valid email';
-                  }
-                  return null;
-                },
               ),
               Gap(32),
               CustomButton(
                 text: 'Send Code',
                 onPressed: () {
-                  Get.to(PassVerifyScreen());
+                  controller.sendOtp();
                 },
               ),
             ],

@@ -33,7 +33,7 @@ class SignUpVerifyScreen extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: .all(24),
+          padding: .all(16),
           child: Column(
             mainAxisAlignment: .start,
             children: [
@@ -77,6 +77,8 @@ class SignUpVerifyScreen extends StatelessWidget {
               Gap(32),
               Form(
                 child: Pinput(
+                  length: 6,
+                  controller: controller.otpController,
                   defaultPinTheme: defaultPinTheme.copyWith(
                     decoration: BoxDecoration(
                       color: AppColors.textWhite,
@@ -94,36 +96,40 @@ class SignUpVerifyScreen extends StatelessWidget {
                 ),
               ),
               Gap(20),
-              Row(
-                mainAxisAlignment: .center,
-                children: [
-                  Text(
-                    'Resend code in',
-                    textAlign: .center,
-                    style: GoogleFonts.inter(
-                      fontWeight: .w400,
-                      fontSize: 16,
-                      color: AppColors.textSecondary,
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: null,
-                    child: Text(
-                      '0:43',
-                      style: GoogleFonts.poppins(
-                        color: AppColors.textPrimary,
-                        fontSize: 16,
-                        fontWeight: .w500,
+              Obx(
+                () => controller.canResend.value
+                    ? TextButton(
+                        onPressed: controller.resendOtp,
+                        child: Text("Resend OTP"),
+                      )
+                    : Row(
+                        mainAxisAlignment: .center,
+                        children: [
+                          Text(
+                            'Resend code in ',
+                            textAlign: .center,
+                            style: GoogleFonts.inter(
+                              fontWeight: .w400,
+                              fontSize: 16,
+                              color: AppColors.textSecondary,
+                            ),
+                          ),
+                          Text(
+                            '0:${controller.secondsLeft.value}',
+                            style: GoogleFonts.poppins(
+                              color: AppColors.textPrimary,
+                              fontSize: 16,
+                              fontWeight: .w500,
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ),
-                ],
               ),
               Spacer(),
               CustomButton(
                 text: 'Continue',
                 onPressed: () {
-                  controller.showSuccessPopup();
+                  controller.signUpVerify();
                 },
               ),
             ],

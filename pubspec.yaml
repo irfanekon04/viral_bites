@@ -39,6 +39,10 @@ dependencies:
   google_fonts: ^7.1.0
   gap: 
   pinput: ^6.0.1
+  http: ^1.6.0
+  hive: 
+  hive_flutter: 
+  path_provider: ^2.1.5
   
 
 dev_dependencies:

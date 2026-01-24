@@ -8,7 +8,6 @@ import 'package:viral_bites/core/common/widgets/custom_textformfield.dart';
 import 'package:viral_bites/core/utils/constants/app_colors.dart';
 import 'package:viral_bites/core/utils/constants/icon_path.dart';
 import 'package:viral_bites/feature/auth/controller/sign_up_controller.dart';
-import 'package:viral_bites/feature/auth/screen/sign_up_verify_screen.dart';
 
 class SignUpScreen extends StatelessWidget {
   SignUpScreen({super.key});
@@ -22,7 +21,7 @@ class SignUpScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: SafeArea(
           child: Padding(
-            padding: EdgeInsets.all(24),
+            padding: EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: .start,
               children: [
@@ -143,21 +142,15 @@ class SignUpScreen extends StatelessWidget {
                             padding: .all(12),
                             child: Image.asset(IconPath.pass),
                           ),
-                          suffixWidget: _controller.isPassVisible.value
-                              ? GestureDetector(
-                                  onTap: _controller.togglePasswordVisibility,
-                                  child: Icon(
-                                    Icons.visibility_outlined,
-                                    color: AppColors.textSecondary,
-                                  ),
-                                )
-                              : GestureDetector(
-                                  onTap: _controller.togglePasswordVisibility,
-                                  child: Icon(
-                                    Icons.visibility_off_outlined,
-                                    color: AppColors.textSecondary,
-                                  ),
-                                ),
+                          suffixWidget: IconButton(
+                            onPressed: _controller.togglePasswordVisibility,
+                            icon: Icon(
+                              _controller.isPassVisible.value
+                                  ? Icons.visibility_outlined
+                                  : Icons.visibility_off_outlined,
+                              color: AppColors.textSecondary,
+                            ),
+                          ),
 
                           hintTextColor: AppColors.textSecondary,
                           textController: _controller.passController,
@@ -166,9 +159,7 @@ class SignUpScreen extends StatelessWidget {
                             if (value == null || value.isEmpty) {
                               return 'Please enter your password';
                             }
-                            if (!GetUtils.isEmail(value)) {
-                              return 'Please enter a valid ';
-                            }
+
                             return null;
                           },
                         ),
@@ -177,7 +168,7 @@ class SignUpScreen extends StatelessWidget {
                       Obx(
                         () => CustomTextformfield(
                           hintText: '**********',
-                          isObscure: !_controller.isPassVisible.value,
+                          isObscure: !_controller.isConfirmPassVisible.value,
                           headertext: 'Confirm Password',
                           fillColor: AppColors.textWhite,
                           prefixIcon: Container(
@@ -187,11 +178,13 @@ class SignUpScreen extends StatelessWidget {
                             child: Image.asset(IconPath.pass),
                           ),
                           suffixWidget: IconButton(
-                            onPressed: _controller.togglePasswordVisibility,
+                            onPressed:
+                                _controller.toggleConfirmPasswordVisibility,
                             icon: Icon(
-                              _controller.isPassVisible.value
+                              _controller.isConfirmPassVisible.value
                                   ? Icons.visibility_outlined
                                   : Icons.visibility_off_outlined,
+                              color: AppColors.textSecondary,
                             ),
                           ),
 
@@ -202,9 +195,7 @@ class SignUpScreen extends StatelessWidget {
                             if (value == null || value.isEmpty) {
                               return 'Please enter your password';
                             }
-                            if (!GetUtils.isEmail(value)) {
-                              return 'Please enter a valid ';
-                            }
+
                             return null;
                           },
                         ),
@@ -227,10 +218,10 @@ class SignUpScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(4),
                         ),
                         activeColor: AppColors.primary,
-                        value: _controller.isChecked.value,
+                        value: _controller.agreeTerms.value,
                         onChanged: (value) {
-                          _controller.isChecked.value =
-                              !_controller.isChecked.value;
+                          _controller.agreeTerms.value =
+                              !_controller.agreeTerms.value;
                         },
                       ),
                     ),
@@ -250,7 +241,7 @@ class SignUpScreen extends StatelessWidget {
                 CustomButton(
                   text: 'Register',
                   onPressed: () {
-                    Get.to(SignUpVerifyScreen());
+                    _controller.signup();
                   },
                 ),
                 Gap(32),

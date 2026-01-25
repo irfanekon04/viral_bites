@@ -76,7 +76,7 @@ class SignInScreen extends StatelessWidget {
                       Gap(20),
                       Obx(
                         () => CustomTextformfield(
-                          hintText: '**********',
+                          hintText: 'Enter your Password',
                           isObscure: !_controller.isPassVisible.value,
                           headertext: 'Password',
                           fillColor: AppColors.textWhite,

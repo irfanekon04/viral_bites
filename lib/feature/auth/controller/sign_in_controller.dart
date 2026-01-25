@@ -1,8 +1,12 @@
+import 'dart:convert';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:viral_bites/feature/home/screen/home_screen.dart';
 
 import '../../../core/services/api_service.dart';
+import '../../../core/services/storage_service.dart';
 import '../../../core/utils/constants/app_urls.dart';
 
 class SignInController extends GetxController {
@@ -32,6 +36,12 @@ class SignInController extends GetxController {
         });
         if (response.statusCode == 200) {
           Get.snackbar('Success', 'Login successful');
+          final Map<String, dynamic> body = jsonDecode(response.body);
+          final String? authToken = body['token'];
+          if (authToken != null) {
+            await StorageService().saveData('authToken', authToken);
+            if (kDebugMode) print("auth token saved: $authToken");
+          }
           Get.offAll(() => HomeScreen());
         } else {
           Get.snackbar('Error', 'Login failed: Invalid email or password');

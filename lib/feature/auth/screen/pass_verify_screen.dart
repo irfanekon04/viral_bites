@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -131,11 +132,15 @@ class PassVerifyScreen extends StatelessWidget {
                       ),
               ),
               Spacer(),
-              CustomButton(
-                text: 'Continue',
-                onPressed: () {
-                  controller.verify();
-                },
+              Obx(
+                () => controller.isLoading.value
+                    ? SpinKitCircle(color: AppColors.primary)
+                    : CustomButton(
+                        text: 'Continue',
+                        onPressed: () {
+                          controller.verify();
+                        },
+                      ),
               ),
             ],
           ),

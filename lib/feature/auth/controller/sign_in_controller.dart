@@ -14,6 +14,7 @@ class SignInController extends GetxController {
   TextEditingController passController = TextEditingController();
   final loginFormKey = GlobalKey<FormState>();
   RxBool isChecked = false.obs;
+  RxBool isLoading = false.obs;
   RxBool isPassVisible = false.obs;
 
   void togglePasswordVisibility() {
@@ -30,6 +31,7 @@ class SignInController extends GetxController {
       final password = passController.text;
 
       try {
+        isLoading.value = true;
         final response = await ApiService().postRequest(AppUrls.login, {
           'email': email,
           'password': password,
@@ -48,6 +50,9 @@ class SignInController extends GetxController {
         }
       } catch (e) {
         Get.snackbar('Error', 'An error occurred!');
+      }
+      finally{
+        isLoading.value = false;
       }
     }
   }

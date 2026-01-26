@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:viral_bites/core/utils/constants/app_colors.dart';
 import 'package:viral_bites/feature/home/controller/home_screen_controller.dart';
 import 'package:viral_bites/feature/home/screen/notifications_screen.dart';
 
@@ -37,33 +39,45 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           children: [
             Gap(10),
-            TextButton(
-              onPressed: controller.fetchProducts,
-              child: Text('Products'),
+            Obx(
+              ()=> TextButton(
+                onPressed: controller.fetchProducts,
+                child: Text('Products: ${controller.products.length}'),
+              ),
             ),
-            Obx(() {
-              return Expanded(
-                child: ListView.builder(
-                  itemCount: controller.products.length,
-                  itemBuilder: (context, index) {
-                    final product = controller.products[index];
-                    return ListTile(
-                      onTap: () => controller.getSingleProduct(product),
-                      title: Text(product.name),
-                      subtitle: Text('\$${product.price}'),
-                      trailing: IconButton(
-                        icon: Icon(Icons.delete),
-                        onPressed: () {
-                          controller.deleteProduct(product.id);
+            Obx(
+              () => Expanded(
+                child: controller.isLoading.value
+                    ? SpinKitCircle(color: AppColors.primary)
+                    : ListView.builder(
+                        itemCount: controller.products.length,
+                        itemBuilder: (context, index) {
+                          final product = controller.products[index];
+                          return ListTile(
+                            onTap: () => controller.getSingleProduct(product),
+                            title: Text(product.name),
+                            subtitle: Text('\$${product.price}'),
+                            trailing: IconButton(
+                              icon: Icon(Icons.delete),
+                              onPressed: () {
+                                controller.deleteProduct(product.id);
+                              },
+                            ),
+                          );
                         },
                       ),
-                    );
-                  },
-                ),
-              );
-            }),
+              ),
+            ),
+            Obx(()=> Text('${controller.counterVar.value}',style: GoogleFonts.poppins(color: AppColors.textPrimary, fontSize: 48,fontWeight: .bold))),
+            Row(mainAxisAlignment: .center,
+              children: [
+                FloatingActionButton(onPressed: (){controller.counterDecrement();}, child: Icon(Icons.remove),),Gap(10),
+                FloatingActionButton(onPressed: (){controller.counterIncrement();}, child: Icon(Icons.add),),
+              ],
+            )
           ],
         ),
+        
       ),
     );
   }

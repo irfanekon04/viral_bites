@@ -9,12 +9,14 @@ import '../../../core/utils/constants/app_urls.dart';
 class ForgetPassController extends GetxController {
   final forgotPassFormKey = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
+  final RxBool isLoading = false.obs;
 
   void sendOtp() async {
     if (forgotPassFormKey.currentState!.validate()) {
       final email = emailController.text.trim();
 
       try {
+        isLoading.value = true;
         final response = await ApiService().postRequest(AppUrls.forgotPass, {
           'email': email,
         });
@@ -32,6 +34,9 @@ class ForgetPassController extends GetxController {
         }
       } catch (e) {
         Get.snackbar('Error', 'An error occurred!');
+      }
+      finally{
+        isLoading.value = false;
       }
     }
   }

@@ -3,6 +3,7 @@
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
+import 'package:viral_bites/core/app_secrets/api_keys.dart';
 
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///
@@ -53,7 +54,7 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyB2O2mTVPcZsZiD3dZFsIyf2d_m-Irw3Pg',
+    apiKey: ApiKeys.firebaseApiKey,
     appId: '1:335253439250:android:03aa3fe9a731bfa6fce9cb',
     messagingSenderId: '335253439250',
     projectId: 'viral-bites-f724d',

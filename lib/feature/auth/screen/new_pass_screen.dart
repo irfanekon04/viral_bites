@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -133,11 +134,15 @@ class NewPassScreen extends StatelessWidget {
                   ),
                 ),
                 Gap(32),
-                CustomButton(
-                  text: 'Change Password',
-                  onPressed: () {
-                    controller.verifyResetPass();
-                  },
+                Obx(
+                  () => controller.isLoading.value
+                      ? SpinKitCircle(color: AppColors.primary)
+                      : CustomButton(
+                          text: 'Change Password',
+                          onPressed: () {
+                            controller.verifyResetPass();
+                          },
+                        ),
                 ),
               ],
             ),

@@ -8,6 +8,7 @@ class NotificationsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // ignore: unused_local_variable
     final controller = Get.put(HomeScreenController());
     return Scaffold(
       appBar: AppBar(),

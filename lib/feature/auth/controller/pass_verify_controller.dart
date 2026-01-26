@@ -14,7 +14,7 @@ class PassVerifyController extends GetxController {
   final TextEditingController otpController = TextEditingController();
   late String mail = Get.arguments;
   static const int _initialSeconds = 60;
-
+  RxBool isLoading = false.obs;
   RxInt secondsLeft = _initialSeconds.obs;
   RxBool canResend = false.obs;
   Timer? _timer;
@@ -35,6 +35,7 @@ class PassVerifyController extends GetxController {
     final otp = otpController.text;
 
     try {
+      isLoading.value = true;
       final response = await ApiService().postRequest(AppUrls.forgotPassOtp, {
         'email': mail,
         'otp': otp,
@@ -56,7 +57,6 @@ class PassVerifyController extends GetxController {
         Get.to(() => NewPassScreen(), arguments: mail);
       } else {
         Get.snackbar('Error', 'Verification failed: Invalid OTP');
-        if (kDebugMode) {}
         if (kDebugMode) {
           print(otp);
         }
@@ -66,6 +66,8 @@ class PassVerifyController extends GetxController {
       if (kDebugMode) {
         print(e);
       }
+    } finally {
+      isLoading.value = false;
     }
   }
 

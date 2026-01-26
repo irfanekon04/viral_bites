@@ -18,7 +18,7 @@ class NewPassController extends GetxController {
   TextEditingController confirmPassController = TextEditingController();
   RxBool isPassVisible = false.obs;
   RxBool isConfirmPassVisible = false.obs;
-
+  RxBool isLoading = false.obs;
   final resetPassFormKey = GlobalKey<FormState>();
   void togglePasswordVisibility() {
     isPassVisible.value = !isPassVisible.value;
@@ -32,6 +32,7 @@ class NewPassController extends GetxController {
     final password = confirmPassController.text;
     final email = Get.arguments;
     try {
+      isLoading.value = true;
       final resetToken = StorageService().getData('resetToken');
       if (resetToken == null || resetToken.isEmpty) {
         if (kDebugMode) {
@@ -64,6 +65,9 @@ class NewPassController extends GetxController {
       if (kDebugMode) {
         print(e);
       }
+    }
+    finally{
+      isLoading.value = true;
     }
   }
 

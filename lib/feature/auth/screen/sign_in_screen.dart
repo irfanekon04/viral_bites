@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -162,12 +163,13 @@ class SignInScreen extends StatelessWidget {
                   ],
                 ),
                 Gap(32),
-                CustomButton(
+                Obx(()=> _controller.isLoading.value? SpinKitCircle(color: AppColors.primary,) : CustomButton(
                   text: 'Login',
                   onPressed: () {
                     _controller.login();
                   },
-                ),
+                ),),
+                
                 Gap(46),
                 Row(
                   mainAxisAlignment: .center,

@@ -13,6 +13,7 @@ class SignUpController extends GetxController {
   TextEditingController phoneController = TextEditingController();
   TextEditingController confirmPassController = TextEditingController();
   RxBool agreeTerms = false.obs;
+  RxBool isLoading = false.obs;
   RxBool isPassVisible = false.obs;
   RxBool isConfirmPassVisible = false.obs;
   void toogleCheckbox() {
@@ -40,6 +41,7 @@ class SignUpController extends GetxController {
       final termsNcond = agreeTerms.value;
 
       try {
+        isLoading.value = true;
         final response = await ApiService().postRequest(AppUrls.signup, {
           'fullName': fullName,
           'email': email,
@@ -64,6 +66,9 @@ class SignUpController extends GetxController {
         if (kDebugMode) {
           print(e);
         }
+      }
+      finally{
+        isLoading.value = false;
       }
     }
   }

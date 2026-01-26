@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gap/gap.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,7 @@ import 'package:viral_bites/feature/home/screen/product_screen.dart';
 import '../../../core/utils/constants/app_colors.dart';
 
 class HomeScreenController extends GetxController {
-  var isLoading = true.obs;
+  var isLoading = false.obs;
   var products = <Product>[].obs;
   Product? selectedProduct;
   final TextEditingController productNameController = TextEditingController();
@@ -92,13 +93,16 @@ class HomeScreenController extends GetxController {
   }
 
   void fetchProducts() async {
-    try {
+    try {isLoading.value = true;
       final result = await ApiService().fetchProducts();
       products.assignAll(result);
     } catch (e) {
       if (kDebugMode) {
         print(e);
       }
+    }
+    finally{
+      isLoading.value = false;
     }
   }
 
@@ -109,11 +113,15 @@ class HomeScreenController extends GetxController {
 
   void getSingleProduct(Product product) async {
     try {
+      isLoading.value = true;
       final result = await ApiService().getSingleProduct(product.name);
       selectedProduct = result;
       Get.to(() => ProductScreen());
     // ignore: empty_catches
     } catch (e) {}
+    finally{
+      isLoading.value= false;
+    }
   }
 
   void deleteProduct(String? id) async {
@@ -125,12 +133,14 @@ class HomeScreenController extends GetxController {
       return;
     }
     try {
+      isLoading.value = true;
       final response = await ApiService().deleteProduct(id, authToken);
       if (response.statusCode == 200) {
         Get.snackbar(
           'Success!',
           'Deleted Success, please refresh the product list.',
         );
+        fetchProducts();
       } else {
         Get.snackbar('Delete Failed', 'Status code: ${response.statusCode}');
       }
@@ -139,6 +149,9 @@ class HomeScreenController extends GetxController {
       }
     // ignore: empty_catches
     } catch (e) {}
+    finally{
+      isLoading.value = false;
+    }
   }
 
   void editProduct(String? id) async {
@@ -149,6 +162,7 @@ class HomeScreenController extends GetxController {
     final String authToken = await StorageService().getData('authToken');
 
     try {
+      isLoading.value = true;
       final response = await ApiService().editProduct(
         id,
         authToken,
@@ -169,6 +183,9 @@ class HomeScreenController extends GetxController {
         print(e);
       }
     }
+    finally{
+      isLoading.value =false;
+    }
   }
 
   void showEditDialogue(String? id) {
@@ -178,7 +195,7 @@ class HomeScreenController extends GetxController {
         shape: RoundedRectangleBorder(borderRadius: .circular(12)),
         child: Padding(
           padding: .all(16),
-          child: Column(
+          child: Obx(()=> isLoading.value? SpinKitCircle(color: AppColors.primary):Column(
             mainAxisSize: .min,
             children: [
               TextField(
@@ -203,10 +220,20 @@ class HomeScreenController extends GetxController {
               Gap(5),
               CustomButton(text: 'Submit', onPressed: () => editProduct(id)),
             ],
-          ),
+          ),), 
         ),
       ),
     );
+  }
+
+
+  final RxInt counterVar= 0.obs;
+
+  void counterIncrement(){
+    counterVar.value++;
+  }
+  void counterDecrement(){
+    counterVar.value--;
   }
 
 

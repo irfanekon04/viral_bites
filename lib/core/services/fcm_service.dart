@@ -1,4 +1,5 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:viral_bites/feature/home/screen/notifications_screen.dart';
@@ -17,7 +18,9 @@ class FcmService {
     // fetch the fcm token from the device
     final fcmToken = await _firebaseMessaging.getToken();
 
-    print('Token: $fcmToken');
+    if (kDebugMode) {
+      print('Token: $fcmToken');
+    }
 
     initPushNotifications();
   }
@@ -30,7 +33,7 @@ class FcmService {
   }
 
   void initPushNotifications() async {
-    //handle notification if the app was terminated and now opened
+    // handle notification if the app was terminated and now opened
     FirebaseMessaging.instance.getInitialMessage().then(handleMessage);
 
     // attach event listener for when a notification opens the app

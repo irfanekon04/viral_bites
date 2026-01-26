@@ -17,6 +17,7 @@ class SignUpVerifyController extends GetxController {
   static const int _initialSeconds = 60;
   RxInt secondsLeft = _initialSeconds.obs;
   RxBool canResend = false.obs;
+  RxBool isLoading = false.obs;
   Timer? _timer;
 
   @override
@@ -35,6 +36,7 @@ class SignUpVerifyController extends GetxController {
     final otpCode = otpController.text;
 
     try {
+      isLoading.value = true;
       final response = await ApiService().postRequest(AppUrls.signUpOtpVerify, {
         'email': email,
         'otp': otpCode,
@@ -43,10 +45,13 @@ class SignUpVerifyController extends GetxController {
         Get.snackbar('Success', 'Verification Successful!');
         showSuccessPopup();
       } else {
-        Get.snackbar('Error', 'Login failed: Invalid email or password');
+        Get.snackbar('Error', 'Invalid OTP');
       }
     } catch (e) {
       Get.snackbar('Error', 'An error occurred!');
+    }
+    finally{
+      isLoading.value = false;
     }
   }
 
@@ -120,6 +125,9 @@ class SignUpVerifyController extends GetxController {
       }
     } catch (e) {
       Get.snackbar('Error', 'Something went wrong');
+    }
+    finally{
+      isLoading.value = false;
     }
   }
 }

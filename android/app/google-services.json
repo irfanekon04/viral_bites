@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "335253439250",
+    "project_id": "viral-bites-f724d",
+    "storage_bucket": "viral-bites-f724d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:335253439250:android:03aa3fe9a731bfa6fce9cb",
+        "android_client_info": {
+          "package_name": "com.example.viral_bites"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2O2mTVPcZsZiD3dZFsIyf2d_m-Irw3Pg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

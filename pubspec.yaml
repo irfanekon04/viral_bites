@@ -44,6 +44,8 @@ dependencies:
   hive_flutter: 
   path_provider: ^2.1.5
   flutter_easyloading: ^3.0.5
+  firebase_core: ^4.4.0
+  firebase_messaging: ^16.1.1
   
 
 dev_dependencies:

@@ -71,8 +71,8 @@ class HomeScreen extends StatelessWidget {
             Obx(()=> Text('${controller.counterVar.value}',style: GoogleFonts.poppins(color: AppColors.textPrimary, fontSize: 48,fontWeight: .bold))),
             Row(mainAxisAlignment: .center,
               children: [
-                FloatingActionButton(onPressed: (){controller.counterDecrement();}, child: Icon(Icons.remove),),Gap(10),
-                FloatingActionButton(onPressed: (){controller.counterIncrement();}, child: Icon(Icons.add),),
+                FloatingActionButton(heroTag: 'decrement', onPressed: (){controller.counterDecrement();}, child: Icon(Icons.remove),),Gap(10),
+                FloatingActionButton(heroTag: 'increment', onPressed: (){controller.counterIncrement();}, child: Icon(Icons.add),),
               ],
             )
           ],

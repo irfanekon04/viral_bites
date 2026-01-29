@@ -163,13 +163,17 @@ class SignInScreen extends StatelessWidget {
                   ],
                 ),
                 Gap(32),
-                Obx(()=> _controller.isLoading.value? SpinKitCircle(color: AppColors.primary,) : CustomButton(
-                  text: 'Login',
-                  onPressed: () {
-                    _controller.login();
-                  },
-                ),),
-                
+                Obx(
+                  () => _controller.isLoading.value
+                      ? SpinKitCircle(color: AppColors.primary)
+                      : CustomButton(
+                          text: 'Login',
+                          onPressed: () {
+                            _controller.login();
+                          },
+                        ),
+                ),
+
                 Gap(46),
                 Row(
                   mainAxisAlignment: .center,
